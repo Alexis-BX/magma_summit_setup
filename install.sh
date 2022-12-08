@@ -26,7 +26,7 @@ rm Miniconda3-latest-Linux-ppc64le.sh
 cd /ccs/home/$(whoami)/scratch
 source /ccs/home/$(whoami)/scratch/setup.sh
 conda init
-conda create -n gpt-neox python=3.8 -y
+conda create -n gpt-neox -y python=3.8
 
 # install pytorch. It tends to be challenging to install pytorch on the POWER architecture, so use Quentin's. If you can't access this file, contact me (qubitquentin@gmail.com) or build your own wheel from source.
 pip3 install /gpfs/alpine/csc499/proj-shared/torch-1.13.0a0+gitbb7fd1f-cp39-cp39-linux_ppc64le.whl
