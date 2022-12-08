@@ -22,6 +22,8 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-ppc64le.sh
 bash Miniconda3-latest-Linux-ppc64le.sh -b -p $PWD/miniconda3
 rm Miniconda3-latest-Linux-ppc64le.sh
 
+# setup conda
+cd /ccs/home/$(whoami)/scratch
 source /ccs/home/$(whoami)/scratch/setup.sh
 conda init
 conda create -n gpt-neox python=3.8
