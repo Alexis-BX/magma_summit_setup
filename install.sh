@@ -1,12 +1,7 @@
-echo Enter your project ID
-read PROJECTID
-
 cd /ccs/home/$(whoami)
 mkdir scratch
 
 cd /ccs/home/$(whoami)/scratch
-
-bsub -nnodes 1 -alloc_flags gpudefault -W 1:00 -P $PROJECTID -Is /bin/bash
 
 module load cuda/11.0.3 gcc/10.2.0 git
 
