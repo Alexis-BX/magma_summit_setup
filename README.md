@@ -3,7 +3,8 @@
 Launch compute node:
 ```
 echo Enter your project ID
-read PROJECTID
+read ID
+echo $ID > .projectid
 
-bsub -nnodes 1 -alloc_flags gpudefault -W 1:00 -P $PROJECTID -Is /bin/bash
+bsub -nnodes 1 -alloc_flags gpudefault -W 1:00 -P $(cat .projectid) -Is /bin/bash
 ```
