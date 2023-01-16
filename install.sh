@@ -39,8 +39,25 @@ git checkout 3.1.2
 CC=$(which mpicc) CXX=$(which mpicxx) python setup.py build --mpicc=$(which mpicc)
 CC=$(which mpicc) CXX=$(which mpicxx) python setup.py install
 
+# install deepspeed
+# !!!NOTE!!! Most DS op compilations will fail since we're on the POWER arch. I'd recommend building DS from source without ops, then setting the .cache directory to a non-default location since $HOME isn't accessible on compute nodes when DS will build them JIT.
+cd /ccs/home/$(whoami)/scratch
+git clone https://github.com/microsoft/DeepSpeed.git
+cd DeepSpeed
+pip install -r requirements/requirements.txt
+DS_BUILD_OPS=0 pip install -e .
+
 # install apex
 cd /ccs/home/$(whoami)/scratch
 git clone https://github.com/NVIDIA/apex.git
 cd apex
 pip install -r requirements.txt
+# EDIT SETUP.PY HERE
+### pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+
+
+# install my magma summit fork
+cd /ccs/home/$(whoami)/scratch
+git clone https://github.com/Quentin-Anthony/magma
+cd magma
+### pip install -r requirements_summit.txt
