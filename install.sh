@@ -35,6 +35,7 @@ pip3 install /gpfs/alpine/csc499/proj-shared/torch-1.13.0a0+gitbb7fd1f-cp39-cp39
 cd /ccs/home/$(whoami)/scratch
 git clone https://github.com/mpi4py/mpi4py.git
 cd mpi4py
+git checkout 3.1.2
 CC=$(which mpicc) CXX=$(which mpicxx) python setup.py build --mpicc=$(which mpicc)
 CC=$(which mpicc) CXX=$(which mpicxx) python setup.py install
 
