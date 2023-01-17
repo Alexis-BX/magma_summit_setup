@@ -52,12 +52,18 @@ cd /ccs/home/$(whoami)/scratch
 git clone https://github.com/NVIDIA/apex.git
 cd apex
 pip install -r requirements.txt
-# EDIT SETUP.PY HERE
-### pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+sed -i 's/def check_cuda_torch_binary_vs_bare_metal(cuda_dir):/def check_cuda_torch_binary_vs_bare_metal(cuda_dir):\n    return/g' setup.py
+module load gcc/9.3.0
+pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 
 
 # install my magma summit fork
 cd /ccs/home/$(whoami)/scratch
 git clone https://github.com/Quentin-Anthony/magma
 cd magma
-### pip install -r requirements_summit.txt
+pip install -r requirements_summit.txt
+
+pip uninstall torchvision
+pip install /gpfs/alpine/csc499/proj-shared/torchvision-0.15.0a0+035d99f-cp39-cp39-linux_ppc64le.whl
+
+deepspeed train.py --config summit_clipH_pythia19m.yml
