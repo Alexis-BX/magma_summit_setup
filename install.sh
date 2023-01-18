@@ -63,7 +63,7 @@ git clone https://github.com/Quentin-Anthony/magma
 cd magma
 pip install -r requirements_summit.txt
 
-pip uninstall torchvision
+pip uninstall torchvision -y
 pip install /gpfs/alpine/csc499/proj-shared/torchvision-0.15.0a0+035d99f-cp39-cp39-linux_ppc64le.whl
 
 deepspeed train.py --config summit_clipH_pythia19m.yml
