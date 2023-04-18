@@ -42,10 +42,12 @@ CC=$(which mpicc) CXX=$(which mpicxx) python setup.py install
 # install deepspeed
 # !!!NOTE!!! Most DS op compilations will fail since we're on the POWER arch. I'd recommend building DS from source without ops, then setting the .cache directory to a non-default location since $HOME isn't accessible on compute nodes when DS will build them JIT.
 cd /ccs/home/$(whoami)/scratch
-git clone https://github.com/microsoft/DeepSpeed.git
-cd DeepSpeed
+git clone https://github.com/EleutherAI/DeeperSpeed.git
+cd DeeperSpeed
+git checkout v2.0-summit
 pip install -r requirements/requirements.txt
-DS_BUILD_OPS=0 pip install -e .
+CC='which gcc' CXX='which g++' BUILD_DS_UTILS=1 BUILD_FUSED_ADAM=1 BUILD_FUSED_LAMB=1 DS_BUILD_OPS=0 pip install -e .
+sed -i's/default=PDSH_LAUNCHER,/default=JSRUN_LAUNCHER,/g' deepspeed/launcher/runner.py
 
 # install apex
 cd /ccs/home/$(whoami)/scratch
@@ -59,8 +61,9 @@ pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp
 
 # install my magma summit fork
 cd /ccs/home/$(whoami)/scratch
-git clone https://github.com/Quentin-Anthony/magma
+git clone https://github.com/Alexis-BX/magma
 cd magma
+git checkout training_without_inference
 pip install -r requirements_summit.txt
 
 pip uninstall torchvision -y
