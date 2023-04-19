@@ -66,7 +66,10 @@ cd magma
 git checkout training_without_inference
 pip install -r requirements_summit.txt
 
+cd /ccs/home/$(whoami)/scratch
+mkdir hostfiles
+
 pip uninstall torchvision -y
 pip install /gpfs/alpine/csc499/proj-shared/torchvision-0.15.0a0+035d99f-cp39-cp39-linux_ppc64le.whl
 
-deepspeed train.py --config summit_clipH_pythia19m.yml
+./launch_job.sh
