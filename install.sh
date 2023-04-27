@@ -39,16 +39,6 @@ git checkout 3.1.2
 CC=$(which mpicc) CXX=$(which mpicxx) python setup.py build --mpicc=$(which mpicc)
 CC=$(which mpicc) CXX=$(which mpicxx) python setup.py install
 
-# install deepspeed
-# !!!NOTE!!! Most DS op compilations will fail since we're on the POWER arch. I'd recommend building DS from source without ops, then setting the .cache directory to a non-default location since $HOME isn't accessible on compute nodes when DS will build them JIT.
-cd /ccs/home/$(whoami)/scratch
-git clone https://github.com/EleutherAI/DeeperSpeed.git
-cd DeeperSpeed
-git checkout v2.0-summit
-pip install -r requirements/requirements.txt
-CC='which gcc' CXX='which g++' BUILD_DS_UTILS=1 BUILD_FUSED_ADAM=1 BUILD_FUSED_LAMB=1 DS_BUILD_OPS=0 pip install -e .
-sed -i's/default=PDSH_LAUNCHER,/default=JSRUN_LAUNCHER,/g' deepspeed/launcher/runner.py
-
 # install apex
 cd /ccs/home/$(whoami)/scratch
 git clone https://github.com/NVIDIA/apex.git
@@ -58,6 +48,18 @@ sed -i 's/def check_cuda_torch_binary_vs_bare_metal(cuda_dir):/def check_cuda_to
 module load gcc/9.3.0
 pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 
+# install deepspeed
+# !!!NOTE!!! Most DS op compilations will fail since we're on the POWER arch. I'd recommend building DS from source without ops, then setting the .cache directory to a non-default location since $HOME isn't accessible on compute nodes when DS will build them JIT.
+conda create --name magma
+conda activate magma
+
+cd /ccs/home/$(whoami)/scratch
+git clone https://github.com/EleutherAI/DeeperSpeed.git
+cd DeeperSpeed
+git checkout v2.0-summit
+pip install -r requirements/requirements.txt
+CC='which gcc' CXX='which g++' BUILD_DS_UTILS=1 BUILD_FUSED_ADAM=1 BUILD_FUSED_LAMB=1 DS_BUILD_OPS=0 pip install -e .
+sed -i's/default=PDSH_LAUNCHER,/default=JSRUN_LAUNCHER,/g' deepspeed/launcher/runner.py
 
 # install my magma summit fork
 cd /ccs/home/$(whoami)/scratch
