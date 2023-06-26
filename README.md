@@ -1,7 +1,7 @@
 # magma_summit_setup
 Setup:
 ```
-echo [project ID] > .projectid
+echo [project ID] > /ccs/home/$(whoami)/.projectid
 ```
 
 Launch compute node:
