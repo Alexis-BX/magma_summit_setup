@@ -1,4 +1,4 @@
-PROJDIR=CSC499
+PROJDIR=$(cat /ccs/home/$(whoami)/.projectid)
 
 mkdir /gpfs/alpine/$PROJDIR/scratch/$(whoami)
 
